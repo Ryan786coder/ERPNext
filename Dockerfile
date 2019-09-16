@@ -95,7 +95,7 @@ RUN sudo service mysql start \
     --without-bench-setup \
     # install bench
     && rm -rf bench \
-    && git clone $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \
+    && git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \
     && sudo pip install -e $benchPath \
     # init bench folder
     && bench init $benchFolderName --frappe-path $frappeRepo --frappe-branch $appBranch --python $pythonVersion \
