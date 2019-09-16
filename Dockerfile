@@ -120,7 +120,7 @@ RUN sudo service mysql start \
     && bench new-site $siteName \
     --mariadb-root-password $mysqlPass  \
     --admin-password $adminPass \
-    && bench --site $siteName install-app erpnext
+    && bench --site $siteName install-app erpnext; exit 0
 
 # [work around] change back config for work around for  "cmd": "chsh frappe -s $(which bash)", "stderr": "Password: chsh: PAM: Authentication failure"
 RUN sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/' /etc/pam.d/chsh
