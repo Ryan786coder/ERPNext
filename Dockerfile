@@ -102,9 +102,9 @@ RUN bench init $benchFolderName --frappe-path $frappeRepo --frappe-branch $appBr
     # cd to bench folder
 RUN cd $benchFolderName \
     # install erpnext
-&& bench get-app erpnext $erpnextRepo \
+&& bench get-app erpnext $erpnextRepo 
     # [work around] fix for Setup failed >> Could not start up: Error in setup
-    && bench update --patch 
+    #&& bench update --patch 
     # delete unnecessary frappe apps
 RUN rm -rf \
     apps/frappe_io \
