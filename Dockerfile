@@ -84,8 +84,8 @@ ENV easyinstallRepo='https://raw.githubusercontent.com/frappe/bench/master/playb
 ARG pythonVersion=python
 ARG appBranch=master
 
-RUN sudo service mysql start 
-RUN mysql --user="root" --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'travis';" 
+RUN sudo service mysql start \
+   && mysql --user="root" --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'travis';" 
 RUN git clone $benchRepo /tmp/.bench --depth 1 --branch $benchBranch 
     # start easy install
 RUN wget $easyinstallRepo 
