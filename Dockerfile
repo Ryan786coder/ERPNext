@@ -95,7 +95,7 @@ RUN sudo service mysql start \
     --without-bench-setup \
     # install bench
     && rm -rf bench \
-    && git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \
+    && git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \ ; exit 0
     && sudo pip install -e $benchPath \
     # init bench folder
     && bench init $benchFolderName --frappe-path $frappeRepo --frappe-branch $appBranch --python $pythonVersion \
@@ -120,7 +120,7 @@ RUN sudo service mysql start \
     && bench new-site $siteName \
     --mariadb-root-password $mysqlPass  \
     --admin-password $adminPass \
-    && bench --site $siteName install-app erpnext; exit 0
+    && bench --site $siteName install-app erpnext
 
 # [work around] change back config for work around for  "cmd": "chsh frappe -s $(which bash)", "stderr": "Password: chsh: PAM: Authentication failure"
 RUN sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/' /etc/pam.d/chsh
