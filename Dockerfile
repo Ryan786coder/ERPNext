@@ -85,42 +85,42 @@ ARG pythonVersion=python
 ARG appBranch=master
 
 RUN sudo service mysql start \
-    && mysql --user="root" --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'travis';" \
-    && git clone $benchRepo /tmp/.bench --depth 1 --branch $benchBranch \
+RUN mysql --user="root" --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'travis';" \
+RUN git clone $benchRepo /tmp/.bench --depth 1 --branch $benchBranch \
     # start easy install
-    && wget $easyinstallRepo \
+RUN wget $easyinstallRepo \
     # remove mariadb from bench playbook
-    && sed -i '/mariadb/d' /tmp/.bench/playbooks/site.yml \
-    && python install.py \
+RUN sed -i '/mariadb/d' /tmp/.bench/playbooks/site.yml \
+RUN python install.py \
     --without-bench-setup \
     # install bench
-    && rm -rf bench \
-    && git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \ ; exit 0
-    && sudo pip install -e $benchPath \
+RUN rm -rf bench \
+RUN git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath  \ 
+RUN sudo pip install -e $benchPath \
     # init bench folder
-    && bench init $benchFolderName --frappe-path $frappeRepo --frappe-branch $appBranch --python $pythonVersion \
+RUN bench init $benchFolderName --frappe-path $frappeRepo --frappe-branch $appBranch --python $pythonVersion \
     # cd to bench folder
-    && cd $benchFolderName \
+RUN cd $benchFolderName \
     # install erpnext
-    && bench get-app erpnext $erpnextRepo --branch $appBranch \
+RUN bench get-app erpnext $erpnextRepo --branch $appBranch \
     # [work around] fix for Setup failed >> Could not start up: Error in setup
-    && bench update --patch \
+RUN bench update --patch \
     # delete unnecessary frappe apps
-    && rm -rf \
+RUN rm -rf \
     apps/frappe_io \
     apps/foundation \
-    && sed -i '/foundation\|frappe_io/d' sites/apps.txt \
+RUN sed -i '/foundation\|frappe_io/d' sites/apps.txt \
     # delete temp file
-    && sudo rm -rf /tmp/* \
+RUN sudo rm -rf /tmp/* \
     # clean up installation
-    && sudo apt-get autoremove --purge -y \
-    && sudo apt-get clean \
+RUN sudo apt-get autoremove --purge -y \
+RUN sudo apt-get clean \
     # start mariadb & init new site
-    && sudo service mysql start \
-    && bench new-site $siteName \
+RUN sudo service mysql start \
+RUN bench new-site $siteName \
     --mariadb-root-password $mysqlPass  \
     --admin-password $adminPass \
-    && bench --site $siteName install-app erpnext
+RUN bench --site $siteName install-app erpnext
 
 # [work around] change back config for work around for  "cmd": "chsh frappe -s $(which bash)", "stderr": "Password: chsh: PAM: Authentication failure"
 RUN sudo sed -i 's/auth       sufficient   pam_shells.so/auth       required   pam_shells.so/' /etc/pam.d/chsh
