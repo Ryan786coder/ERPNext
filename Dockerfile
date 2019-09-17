@@ -109,7 +109,7 @@ RUN cd $benchFolderName \
 RUN rm -rf \
     apps/frappe_io \
     apps/foundation 
-RUN sed -i '/foundation\|frappe_io/d' sites/apps.txt 
+#RUN sed -i '/foundation\|frappe_io/d' sites/apps.txt 
     # delete temp file
 RUN sudo rm -rf /tmp/* 
     # clean up installation
