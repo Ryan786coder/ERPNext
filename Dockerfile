@@ -92,7 +92,7 @@ RUN wget $easyinstallRepo
     # remove mariadb from bench playbook
 RUN sed -i '/mariadb/d' /tmp/.bench/playbooks/site.yml 
 RUN python install.py 
-    --without-bench-setup 
+    #--without-bench-setup 
     # install bench
 RUN rm -rf bench 
 RUN git clone --branch $benchBranch --depth 1 --origin upstream $benchRepo $benchPath   
